@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 from windowSetting import setCenter # type: ignore
+from main import openEditor
+
 
 class ComputerScreen():
     windowHeight = 610
@@ -53,7 +55,7 @@ class ComputerScreen():
 
 
     def enableHack(self):
-        pass
+        editor = openEditor(self.window, "Code Editor", "Password")
 
 if __name__ == "__main__":
     root = Tk()
