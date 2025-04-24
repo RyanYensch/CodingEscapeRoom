@@ -1,13 +1,14 @@
 from tkinter import *
 from tkinter import messagebox
 from windowSetting import setCenter # type: ignore
-from main import openEditor
+from codeEditor import openEditor
 
 
 class ComputerScreen():
     windowHeight = 610
     windowWidth = 1080
     incorrectAttempts = 0
+    loggedIn = False
     
     def __init__(self, title="Computer", username="User"):    
         self.window = Toplevel()
@@ -15,10 +16,13 @@ class ComputerScreen():
         self.username = username
         
         setCenter(self.window, self.windowWidth, self.windowHeight)
+        
+        self.screenFrame = Frame(self.window, width=self.windowWidth, height=self.windowHeight, bg="#2ad4ff", borderwidth=30, relief=SOLID)
+        self.screenFrame.pack(fill="both", expand=True)
     
     
     def setLoginPage(self):
-        self.loginFrame = Frame(self.window, width=self.windowWidth, height=self.windowHeight, bg="#2ad4ff", borderwidth=30, relief=SOLID)
+        self.loginFrame = Frame(self.screenFrame, width=self.windowWidth, height=self.windowHeight, bg="#2ad4ff")
         self.loginFrame.pack(fill="both", expand=True)
         
         self.centerFrame = Frame(self.loginFrame, bg="#2ad4ff")
@@ -56,6 +60,16 @@ class ComputerScreen():
 
     def enableHack(self):
         editor = openEditor(self.window, "Code Editor", "Password")
+        self.loggedIn = editor.completedTests()
+        if self.loggedIn:
+            self.setDesktop()
+    
+    def clearFrame(self, frame):
+        for w in frame.winfo_children():
+            w.destroy()
+    
+    def setDesktop(self):
+        self.clearFrame(self.screenFrame)
 
 if __name__ == "__main__":
     root = Tk()
