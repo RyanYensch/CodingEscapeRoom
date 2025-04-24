@@ -21,6 +21,7 @@ class Editor():
         self.textEditorFrame.pack(fill="both", expand=True)
         
         font = Font(family="Courier New", size=12)
+        
     
         self.lineNumbers = Text(self.textEditorFrame, width=4, bg="#2e2e2e", fg="#858585", font=font, state='disabled')
         self.lineNumbers.pack(side="left", fill="y")
@@ -30,6 +31,8 @@ class Editor():
 
         self.textBox = Text(self.textScrollFrame, wrap="none", font=font, bg="#1e1e1e", fg="#d4d4d4", insertbackground="#d4d4d4")
         self.textBox.pack(side="left", fill="both", expand=True)
+        tabWidth = font.measure(" " * 4)
+        self.textBox.config(tabs=tabWidth)
 
         self.scroll = Scrollbar(self.textScrollFrame, command=self.textBox.yview)
         self.scroll.pack(side="right", fill="y")
@@ -175,19 +178,64 @@ class Editor():
         
     def highlightSyntax(self):
         self.textBox.tag_remove("keyword", "1.0", END)
-        keywords = ["int", "return", "else", "if", "void", "for", "while", 
-                    "class", "public", "private", "#include", "string", 
-                    "vector", "map", "set", "unordered_map", "queue", "deque",
-                    "stack", "bool", "long", self.filePath[:-4], "using", "namespace", "std"]
+        self.textBox.tag_remove("string", "1.0", END)
+        self.textBox.tag_remove("comment", "1.0", END)
+        self.textBox.tag_remove("preprocessor", "1.0", END)
+        self.textBox.tag_remove("number", "1.0", END)
+        self.textBox.tag_remove("function", "1.0", END)
+
         content = self.textBox.get("1.0", END)
-        
+
+        # blue Keywords
+        keywords = [
+            "int", "return", "else", "if", "void", "for", "while", "do",
+            "class", "public", "private", "protected", "using", "namespace",
+            "static", "const", "constexpr", "virtual", "override", "true", "false",
+            "bool", "char", "double", "float", "long", "short", "signed", "unsigned",
+            "switch", "case", "break", "continue", "new", "delete", "try", "catch", "throw", "string",
+            "vector", "unordered_map", "deque", "queue", "set", "unordered_set", "map", self.filePath[:-4], "std"
+        ]
         for kw in keywords:
-            for match in re.finditer(r'\b' + kw + r'\b', content):
+            for match in re.finditer(rf'\b{kw}\b', content):
                 start = f"1.0 + {match.start()} chars"
                 end = f"1.0 + {match.end()} chars"
                 self.textBox.tag_add("keyword", start, end)
-                
         self.textBox.tag_config("keyword", foreground="#569CD6")
+
+        # Purple Strings
+        for match in re.finditer(r'"[^"\n]*"|\'[^\']*\'', content):
+            start = f"1.0 + {match.start()} chars"
+            end = f"1.0 + {match.end()} chars"
+            self.textBox.tag_add("string", start, end)
+        self.textBox.tag_config("string", foreground="#C586C0")
+
+        # Green Comments
+        for match in re.finditer(r'//.*?$|/\*.*?\*/', content, re.MULTILINE | re.DOTALL):
+            start = f"1.0 + {match.start()} chars"
+            end = f"1.0 + {match.end()} chars"
+            self.textBox.tag_add("comment", start, end)
+        self.textBox.tag_config("comment", foreground="#6A9955")
+
+        # Orange Preprocessor
+        for match in re.finditer(r'#\s*\w+', content):
+            start = f"1.0 + {match.start()} chars"
+            end = f"1.0 + {match.end()} chars"
+            self.textBox.tag_add("preprocessor", start, end)
+        self.textBox.tag_config("preprocessor", foreground="#CE9178")
+
+        # Red Numbers
+        for match in re.finditer(r'\b\d+(\.\d+)?\b', content):
+            start = f"1.0 + {match.start()} chars"
+            end = f"1.0 + {match.end()} chars"
+            self.textBox.tag_add("number", start, end)
+        self.textBox.tag_config("number", foreground="#D16969")
+
+        # Yellow Function names (basic guess: word followed by `(`)
+        for match in re.finditer(r'\b\w+(?=\s*\()', content):
+            start = f"1.0 + {match.start()} chars"
+            end = f"1.0 + {match.end()} chars"
+            self.textBox.tag_add("function", start, end)
+        self.textBox.tag_config("function", foreground="#DCDCAA")
     
     def onScroll(self, *args):
         self.textBox.yview(*args)
