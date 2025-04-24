@@ -53,12 +53,11 @@ class Editor():
         return text
 
     
-    def setFile(self, className, imports, returnType, funcName, params, tests):
+    def setFile(self, className, returnType, funcName, params, tests):
         text = ""
         self.main = self.generateMain(className, funcName, returnType, tests)
         
-        for imp in imports:
-            text += f"#include <{imp}>\n"
+        text += "#include \"ALL_H_FILES.h\"\n"
         
         text += "using namespace std;\n\n"
         text += f"\nclass {className} "

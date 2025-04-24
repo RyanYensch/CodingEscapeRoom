@@ -3,7 +3,7 @@ from codeEditor import Editor
 from windowSetting import setCenter # type: ignore
 
 
-challenges = [{"className": "Password", "imports": ["iostream", "vector", "algorithm", "string"], 
+challenges = [{"className": "Password", 
                "returnType": "string", "funcName": "passwordDecode", "params" : "string s",
                "tests": [("\"skibidi\"", "\"ski\""), ("\"Heyyy\"", "\"Hey\"")]}]
 
@@ -12,7 +12,7 @@ def initialiseChallenges():
     for c in challenges:
         fileName = c["className"] + ".cpp"
         editor = Editor("", fileName)
-        editor.setFile(c["className"], c["imports"], c["returnType"], c["funcName"], c["params"], c["tests"])
+        editor.setFile(c["className"], c["returnType"], c["funcName"], c["params"], c["tests"])
         editor.getWindow().destroy()
 
 def generateHeaderFile(fileName):
