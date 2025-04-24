@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.font import *
 from windowSetting import setCenter # type: ignore
 import subprocess
+import re
 
 class Editor():
     windowHeight = 700
@@ -40,6 +41,7 @@ class Editor():
         self.textBox.bind("<KeyRelease>", self.onKeyRelease)
         self.textBox.bind("<MouseWheel>", self.updateLineNumbers)
         self.textBox.bind("<Button-1>", self.updateLineNumbers)
+        self.textBox.bind("<Configure>", self.updateLineNumbers)
         self.updateLineNumbers()
         self.highlightSyntax()
         
@@ -172,7 +174,20 @@ class Editor():
         self.lineNumbers.config(state="disabled")
         
     def highlightSyntax(self):
-        pass
+        self.textBox.tag_remove("keyword", "1.0", END)
+        keywords = ["int", "return", "else", "if", "void", "for", "while", 
+                    "class", "public", "private", "#include", "string", 
+                    "vector", "map", "set", "unordered_map", "queue", "deque",
+                    "stack", "bool", "long", self.filePath[:-4], "using", "namespace", "std"]
+        content = self.textBox.get("1.0", END)
+        
+        for kw in keywords:
+            for match in re.finditer(r'\b' + kw + r'\b', content):
+                start = f"1.0 + {match.start()} chars"
+                end = f"1.0 + {match.end()} chars"
+                self.textBox.tag_add("keyword", start, end)
+                
+        self.textBox.tag_config("keyword", foreground="#569CD6")
     
     def onScroll(self, *args):
         self.textBox.yview(*args)
