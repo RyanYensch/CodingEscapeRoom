@@ -7,6 +7,7 @@ import re
 class Editor():
     windowHeight = 700
     windowWidth = 700
+    completed = False
     
     def __init__(self, title, filePath):
         self.window = Toplevel()
@@ -147,7 +148,6 @@ class Editor():
         compRes = self.compileCode()
         if compRes:
             self.updateOutputText(compRes)
-            return False
         
         testResults = subprocess.run(f"./{self.filePath[:-4]}.o",
                                      capture_output=True,
@@ -155,11 +155,12 @@ class Editor():
         
         if testResults.stdout:
             self.updateOutputText("Test Failed:\n" + testResults.stdout)
-            return False
         
         self.updateOutputText("All Tests Passed!")
-        return True
+        self.completed = True
     
+    def completedTests(self):
+        return self.completed
     
     def onKeyRelease(self, event=None):
         self.updateLineNumbers()
