@@ -1,7 +1,6 @@
 *.cpp
 *.out
-
-!main.cpp
+*.o
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
