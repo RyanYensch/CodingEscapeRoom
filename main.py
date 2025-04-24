@@ -17,9 +17,6 @@ def initialiseChallenges():
         editor.setFile(c["className"], c["returnType"], c["funcName"], c["params"], c["tests"])
         editor.getWindow().destroy()
 
-def generateHeaderFile(fileName):
-    pass
-
 
     
     
