@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.font import *
 from windowSetting import setCenter # type: ignore
+import subprocess
 
 class Editor():
     def __init__(self, title, filePath):
@@ -42,5 +43,14 @@ class Editor():
             self.textBox.delete("1.0", END)
             self.textBox.insert("1.0", content)
             
-    def complieCode(self):
-        pro
+    def saveFile(self):
+        with open(self.filePath, "w") as file:
+            file.write(self.textBox.get("1.0", END))
+            
+    def compileCode(self):
+        self.saveFile()
+        
+        compileResults = subprocess.run(["g++", self.filePath])
+        
+        if (compileResults.returncode != 0):
+            print("Compilation Failed")

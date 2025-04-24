@@ -1,4 +1,5 @@
 *.cpp
+*.out
 
 
 # Byte-compiled / optimized / DLL files
