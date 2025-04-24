@@ -21,7 +21,7 @@ class Editor():
         self.buttonFrame = Frame(self.window, width=self.windowWidth, height=self.windowHeight)
         self.buttonFrame.pack(padx=10, pady=10)
         
-        self.testButton = Button(self.buttonFrame, text="Compile", font=font, bg="#1e1e1e", fg="#d4d4d4", command=lambda: self.runTests())
+        self.testButton = Button(self.buttonFrame, text="Run Tests", font=font, bg="#1e1e1e", fg="#d4d4d4", command=lambda: self.runTests())
         self.saveButton = Button(self.buttonFrame, text="Save", font=font, bg="#1e1e1e", fg="#d4d4d4", command=lambda: self.saveFile())
         self.testButton.grid(row=0, column=0)
         self.saveButton.grid(row=0, column=1)
