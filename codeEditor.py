@@ -4,6 +4,19 @@ from windowSetting import setCenter # type: ignore
 import subprocess
 import re
 
+def openEditor(window, title, className):
+    filePath = className + ".cpp"
+    editor = Editor(title, filePath)
+    editor.readFile()
+    editorWindow = editor.getWindow()
+    window.withdraw()
+    window.wait_window(editorWindow)
+    
+    window.deiconify()
+    
+    
+    return editor
+
 class Editor():
     windowHeight = 700
     windowWidth = 700
