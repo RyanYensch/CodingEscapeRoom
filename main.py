@@ -2,6 +2,7 @@ from tkinter import *
 from codeEditor import Editor, openEditor
 from windowSetting import setCenter # type: ignore
 from computerScreen import ComputerScreen
+from bookWindow import Book # type: ignore
 
 
 challenges = [{"className": "Password", 
