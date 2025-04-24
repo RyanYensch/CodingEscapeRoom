@@ -21,10 +21,13 @@ class Editor():
         self.buttonFrame = Frame(self.window, width=self.windowWidth, height=self.windowHeight)
         self.buttonFrame.pack(padx=10, pady=10)
         
-        self.compileButton = Button(self.buttonFrame, text="Compile", font=font, bg="#1e1e1e", fg="#d4d4d4", command=lambda: self.compileCode())
+        self.testButton = Button(self.buttonFrame, text="Compile", font=font, bg="#1e1e1e", fg="#d4d4d4", command=lambda: self.runTests())
         self.saveButton = Button(self.buttonFrame, text="Save", font=font, bg="#1e1e1e", fg="#d4d4d4", command=lambda: self.saveFile())
-        self.compileButton.grid(row=0, column=0)
+        self.testButton.grid(row=0, column=0)
         self.saveButton.grid(row=0, column=1)
+        
+        self.outputTextBox = Text(self.window, wrap="word", font=font, bg="#1e1e1e", fg="#d4d4d4", state=DISABLED)
+        self.outputTextBox.pack(padx=10,pady=10)
         
         self.window.update()
         
@@ -91,7 +94,35 @@ class Editor():
     def compileCode(self):
         self.saveFile()
         
-        compileResults = subprocess.run(["g++", self.filePath])
+        compileResults = subprocess.run(["g++", "-Wall", "-Werror", self.filePath, "-o", f"{self.filePath[:-4]}.o"],
+                                        capture_output=True,
+                                        text=True)
         
         if (compileResults.returncode != 0):
-            print("Compilation Failed")
+            return compileResults.stderr
+        
+        return None
+    
+    def updateOutputText(self, text):
+        self.outputTextBox.config(state=NORMAL)
+        self.outputTextBox.delete("1.0", END)
+        self.outputTextBox.insert("1.0", text)
+        self.outputTextBox.config(state=DISABLED)
+    
+    
+    def runTests(self):
+        compRes = self.compileCode()
+        if compRes:
+            self.updateOutputText(compRes)
+            return False
+        
+        testResults = subprocess.run(f"./{self.filePath[:-4]}.o",
+                                     capture_output=True,
+                                     text=True)
+        
+        if testResults.stdout:
+            self.updateOutputText("Test Failed:\n" + testResults.stdout)
+            return False
+        
+        self.updateOutputText("All Tests Passed!")
+        return True
