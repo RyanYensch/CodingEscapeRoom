@@ -30,8 +30,10 @@ if __name__ == "__main__":
     
     initialiseChallenges()
     # editor = openEditor(window, "Code Editor", "Password")
-    screen = ComputerScreen()
-    screen.setLoginPage()
+    # screen = ComputerScreen()
+    # screen.setLoginPage()
+    
+    book = Book(pagesText=["I love Fortnite", "Ligma\nBalls", "Hey..."])
     
     window.mainloop()
     
