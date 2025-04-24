@@ -3,23 +3,43 @@ from tkinter import messagebox
 from windowSetting import setCenter # type: ignore
 from codeEditor import openEditor
 
+def openComputer(window, title="Computer", username="User", loggedIn=False):
+    computer = ComputerScreen(title, username, loggedIn)
+    computerWindow = computer.getWindow()
+    window.withdraw()
+    window.wait_window(computerWindow)
+    
+    window.deiconify()
+    
+    
+    return computer
 
 class ComputerScreen():
     windowHeight = 610
     windowWidth = 1080
     incorrectAttempts = 0
-    loggedIn = False
     
-    def __init__(self, title="Computer", username="User"):    
+    def __init__(self, title="Computer", username="User", loggedIn = False):    
         self.window = Toplevel()
         self.window.title(title)
         self.username = username
+        self.loggedIn = loggedIn
         
         setCenter(self.window, self.windowWidth, self.windowHeight)
         
         self.screenFrame = Frame(self.window, width=self.windowWidth, height=self.windowHeight, bg="#2ad4ff", borderwidth=30, relief=SOLID)
         self.screenFrame.pack(fill="both", expand=True)
+        
+        if self.loggedIn:
+            self.setDesktop()
+        else:
+            self.setLoginPage()
     
+    def getWindow(self):
+        return self.window
+    
+    def getLoggedIn(self):
+        return self.loggedIn
     
     def setLoginPage(self):
         self.loginFrame = Frame(self.screenFrame, width=self.windowWidth, height=self.windowHeight, bg="#2ad4ff")
