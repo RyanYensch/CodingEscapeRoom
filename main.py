@@ -3,13 +3,24 @@ from codeEditor import Editor
 from windowSetting import setCenter # type: ignore
 
 
-def openEditor(window, title, filePath, newFile):
+challenges = [{"className": "Password", "imports": ["iostream", "vector", "algorithm", "string"], 
+               "returnType": "string", "funcName": "passwordDecode", "params" : "string s",
+               "tests": [("\"skibidi\"", "\"ski\""), ("\"Heyyy\"", "\"Hey\"")]}]
+
+
+def initialiseChallenges():
+    for c in challenges:
+        fileName = c["className"] + ".cpp"
+        editor = Editor("", fileName)
+        editor.setFile(c["className"], c["imports"], c["returnType"], c["funcName"], c["params"], c["tests"])
+        editor.getWindow().destroy()
+
+def generateHeaderFile(fileName):
+    pass
+
+def openEditor(window, title, className):
+    filePath = className + ".cpp"
     editor = Editor(title, filePath)
-    if newFile:
-        editor.setFile(imports=["iostream", "vector", "algorithm", "string"], 
-                    returnType="string", funcName="TestFunc", 
-                    params="vector<int>& arr, string s")
-    
     editor.readFile()
     editorWindow = editor.getWindow()
     window.withdraw()
@@ -26,8 +37,8 @@ if __name__ == "__main__":
     window.title("Escape Room")
     setCenter(window, 1000, 1000)
     
-    
-    editor = openEditor(window, "Code Editor", filePath="temp.cpp", newFile=True)
+    initialiseChallenges()
+    editor = openEditor(window, "Code Editor", "Password")
     
     window.mainloop()
     

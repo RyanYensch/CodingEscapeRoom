@@ -31,14 +31,35 @@ class Editor():
     def getWindow(self):
         return self.window
     
-    def setFile(self, imports, returnType, funcName, params):
+    def generateMain(self, className, funcName, returnType, tests):
+        text = "int main(void) {\n"
+        text += f"   {className} solution;\n"
+        text += f"   {returnType} res;\n\n"
+        
+        for input, output in tests:
+            text += f"   res = solution.{funcName}({input});\n"
+            text += f"   if (res != {output}) "
+            text += "{\n        cout << \"Input: \" << " + f"{input} << endl;\n"
+            text += "        cout << \"Your Output: \" << res << endl;\n"
+            text += "\n        cout << \"Expected Output: \" " + f"{output} << endl;\n"
+            text += "       return -1;\n"
+            text += "   }\n\n"
+        
+        text += "   return 0;\n}"
+        
+        return text
+
+    
+    def setFile(self, className, imports, returnType, funcName, params, tests):
         text = ""
+        self.main = self.generateMain(className, funcName, returnType, tests)
         
         for imp in imports:
             text += f"#include <{imp}>\n"
         
         text += "using namespace std;\n\n"
-        text += "\nclass Solution {\npublic:\n"
+        text += f"\nclass {className} "
+        text += "{\npublic:\n"
         text += f"    {returnType} {funcName}({params})"
         text += " {\n\n    }\n};"
         
@@ -46,6 +67,7 @@ class Editor():
         try:
             with open(self.filePath, 'w') as file:
                 file.write(text)
+                file.write("\n\n" + self.main)
         except:
             print(f"Failed to open file {self.filePath}")
     
@@ -53,12 +75,18 @@ class Editor():
     def readFile(self):
         with open(self.filePath, "r") as file:
             content = file.read()
+            mainIndex = content.find("int main")
+            if mainIndex != -1:
+                self.main = content[mainIndex:]
+                content = content[:mainIndex]
+            
             self.textBox.delete("1.0", END)
             self.textBox.insert("1.0", content)
             
     def saveFile(self):
         with open(self.filePath, "w") as file:
             file.write(self.textBox.get("1.0", END))
+            file.write("\n\n" + self.main)
             
     def compileCode(self):
         self.saveFile()
