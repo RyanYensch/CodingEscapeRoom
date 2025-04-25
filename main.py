@@ -3,12 +3,26 @@ from codeEditor import Editor, openEditor
 from windowSetting import setCenter # type: ignore
 from computerScreen import ComputerScreen, openComputer
 from bookWindow import Book # type: ignore
+from lockScreen import LockInterface # type: ignore
 import random
+
+
 
 challenges = [{"className": "Password", 
                "returnType": "string", "funcName": "passwordDecode", "params" : "string s",
-               "tests": [("\"skibidi\"", "\"ski\""), ("\"Heyyy\"", "\"Hey\"")]}]
+               "tests": [("\"skibidi\"", "\"ski\""), 
+                         ("\"Heyyy\"", "\"Hey\"")]},
+              {"className": "Parity",
+               "returnType": "int", "funcName": "bitParity", "params": "vector<int> nums",
+               "tests": [("vector<int>{1,2,3,4}", "3"),
+                         ("vector<int>{64900, 69133, 64722, 96856, 16905, 72186, 9504, 30765, 56703, 20814, 90109, 20291, 54252, 7259, 95665, 53619, 70726, 3013}", "7"),
+                         ("vector<int>{10921, 51740, 79543, 23938, 43259, 99893, 73110, 76568}", "6"),
+                         ("vector<int>{29133, 21176, 78474, 78911, 97096, 59412, 47619, 56752, 85031, 58569, 1171, 55910, 39341, 50137, 76427, 39180, 99302}", "11"),
+                         ("vector<int>{37192, 29783, 4914, 40890, 40629, 40500, 49840, 69166, 46966, 72360, 25405, 2628, 83272, 69722, 7411, 86350, 68850, 67989, 63305, 74865, 41085, 1453, 37768, 54453, 99180, 33817, 55939, 9129, 95947, 83709, 28926, 60739, 15145, 87402, 26750, 27197, 89264, 37747, 35768, 36601, 33022, 9739, 29881, 49011, 20170, 68910, 54706, 68598, 15894, 47350}", "22"),
+                         ("vector<int>{}", "0")]}]
 
+lockCode = [random.randint(0, 9) for i in range(len(challenges) - 1)]
+lock = LockInterface(code=lockCode)
 
 library = [
     {"title": "Fortnite", "pages": ["I love Fortnite"], "color": "skyblue"},
@@ -28,10 +42,13 @@ def onComputerClick():
     loggedIn = computer.getLoggedIn()
 
 def onDoorClick():
-    print("Door clicked!")
+    if lock.isLocked():
+        return
+    
+    print("Door Opened")
     
 def onDoorKnobClick():
-    print("Door Knob Clicked")
+    lock.openWindow()
 
 def initialiseChallenges():
     for c in challenges:
