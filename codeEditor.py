@@ -87,12 +87,14 @@ class Editor():
         text += f"   {className} solution;\n"
         text += f"   {returnType} res;\n\n"
         
+        addQuotes = returnType != "string"
+        
         for input, output in tests:
             text += f"   res = solution.{funcName}({input});\n"
             text += f"   if (res != {output}) "
-            text += "{\n        cout << \"Input: \" << " + f"{input} << endl;\n"
+            text += "{\n        cout << \"Input: \" << " + ('\"' if addQuotes else "") + f"{input}" + ('\"' if addQuotes else "") + "<< endl;\n"
             text += "        cout << \"Your Output: \" << res << endl;\n"
-            text += "\n        cout << \"Expected Output: \" " + f"{output} << endl;\n"
+            text += "\n        cout << \"Expected Output: \" << "  + ('\"' if addQuotes else "") + f"{output}" + ('\"' if addQuotes else "") + "<< endl;\n"
             text += "       return -1;\n"
             text += "   }\n\n"
         
@@ -161,6 +163,7 @@ class Editor():
         compRes = self.compileCode()
         if compRes:
             self.updateOutputText(compRes)
+            return
         
         testResults = subprocess.run(f"./{self.filePath[:-4]}.o",
                                      capture_output=True,
@@ -168,6 +171,7 @@ class Editor():
         
         if testResults.stdout:
             self.updateOutputText("Test Failed:\n" + testResults.stdout)
+            return
         
         self.updateOutputText("All Tests Passed!")
         self.completed = True
