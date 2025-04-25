@@ -47,9 +47,26 @@ class LockInterface():
         pinwidth = (lockRight - lockLeft) // (self.numRows + 1)
         gap = ((lockRight - lockLeft) - (pinwidth * self.numRows)) // (self.numRows + 1)
         
-        self.canvas.create_line(lockRight - gap // 3, lockY - lockH // 2, lockLeft + gap // 3, lockY - lockH // 2 + 1, fill="white", width=10)
+        self.canvas.create_line(lockRight - gap // 3, lockY - lockH // 2, 
+                                lockLeft + gap // 3, lockY - lockH // 2 + 1, 
+                                fill="white", width=10)
         
+        latchW = 15
+        latchBottom = lockY - lockH
+        connectorLeftX = lockLeft + latchW
+        connectorRightX = lockRight - latchW
+        diff = lockH // 5 if not self.locked else 0
+        self.canvas.create_arc(connectorLeftX, latchBottom + lockH // 3 - diff, 
+                               connectorRightX, latchBottom - lockH // 3 - diff, 
+                               start= 0, extent=180, style="arc", width=latchW, 
+                               outline="silver", tags=("latch")) 
         
+        if not self.locked:
+            self.canvas.create_line(connectorLeftX, latchBottom, 
+                                    connectorLeftX, latchBottom - diff, 
+                                    fill="silver", width=latchW, tags=("latch"))
+        
+        self.canvas.tag_bind(f"latch", "<Button-1>", lambda e: self.lock())
         
         for i in range(self.numRows):
             numLeft = lockLeft + gap * (i + 1) + pinwidth * i
@@ -94,6 +111,19 @@ class LockInterface():
     
     def decreaseNum(self, i):
         self.currCode[i] = (self.currCode[i] + 9) % 10
+        self.drawLock()
+        
+    def lock(self):
+        if not self.locked:
+            self.locked = True
+            self.drawLock()
+            return
+        
+        for i in range(self.numRows):
+            if (self.currCode[i] != self.code[i]):
+                return
+        
+        self.locked = False
         self.drawLock()
 
 if __name__ == "__main__":
