@@ -7,12 +7,11 @@ class LockInterface():
     windowWidth = 300
     
     
-    def __init__(self, title = "Door Lock", numRows = 4, code = [1,2,3,4], locked = True):
-        self.numRows = numRows
+    def __init__(self, title = "Door Lock", code = [1,2,3,4], locked = True):
         self.title = title
-        self.numRows = numRows
+        self.numRows = len(code)
         self.code = code
-        self.currCode = [0] * numRows
+        self.currCode = [0] * self.numRows
         self.locked = locked
     
     def openWindow(self):
