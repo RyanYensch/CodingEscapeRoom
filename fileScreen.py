@@ -8,8 +8,8 @@ def openFile(file, window):
     
 
 class FileScreen():
-    windowWidth = 250
-    windowHeight = 400
+    windowWidth = 512
+    windowHeight = 305
     
     def __init__(self, title = "File", text = ""):
         self.title = title
@@ -25,7 +25,7 @@ class FileScreen():
         self.textScrollFrame = Frame(self.window)
         self.textScrollFrame.pack(side="right", fill="both", expand=True)
 
-        self.textBox = Text(self.textScrollFrame, wrap="none", font=font, bg="#1e1e1e", fg="#d4d4d4", insertbackground="#d4d4d4")
+        self.textBox = Text(self.textScrollFrame, wrap="word", font=font, bg="#1e1e1e", fg="#d4d4d4", insertbackground="#d4d4d4")
         self.textBox.pack(side="left", fill="both", expand=True)
 
         self.scroll = Scrollbar(self.textScrollFrame, command=self.textBox.yview)

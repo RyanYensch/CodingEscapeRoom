@@ -23,6 +23,11 @@ challenges = [{"className": "Password",
                          ("vector<int>{37192, 29783, 4914, 40890, 40629, 40500, 49840, 69166, 46966, 72360, 25405, 2628, 83272, 69722, 7411, 86350, 68850, 67989, 63305, 74865, 41085, 1453, 37768, 54453, 99180, 33817, 55939, 9129, 95947, 83709, 28926, 60739, 15145, 87402, 26750, 27197, 89264, 37747, 35768, 36601, 33022, 9739, 29881, 49011, 20170, 68910, 54706, 68598, 15894, 47350}", "22"),
                          ("vector<int>{}", "0")]}]
 
+
+desktopFiles = [("fortnite.txt","Man\nI\nLove\nFortnite"),
+                ("ParityInstruction.txt", "You are given an array of numbers.\nReturn the count of numbers with an odd number of \'1\' bits\n")]
+
+
 lockCode = [random.randint(0, 9) for i in range(len(challenges) - 1)]
 lock = LockInterface(code=lockCode)
 
@@ -65,7 +70,7 @@ def initialiseChallenges():
         editors[c["className"]] = editor
     
     global computer
-    computer = ComputerScreen(title="Computer",username="Username", loggedIn=False, editors=editors)
+    computer = ComputerScreen(title="Computer",username="Username", loggedIn=False, editors=editors, textFiles=desktopFiles)
 
 def drawBookshelf(canvas, library, shelfLeft, shelfRight,
                    shelfTop, shelfHeight, numShelves = 1,

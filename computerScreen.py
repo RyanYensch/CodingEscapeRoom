@@ -114,16 +114,18 @@ class ComputerScreen():
         fileDrawing += [None] * (self.numIconsCol * self.numIconsRow - len(fileDrawing))
         random.shuffle(fileDrawing)
         
-        for i in range(len(fileDrawing)):
-            if (not fileDrawing[i]):
+        for idx, slot in enumerate(fileDrawing):
+            if slot is None:
                 continue
-            
-            file = fileDrawing[i]
-            
-            self.drawFile(fileName=file["fileName"], 
-                          row= i // self.numIconsCol, 
-                          col = i % self.numIconsRow, 
-                          isEditor=file["isEditor"], text=file["text"])
+            row = idx // self.numIconsCol
+            col = idx %  self.numIconsCol
+            self.drawFile(
+                fileName=slot["fileName"],
+                row=row,
+                col=col,
+                isEditor=slot["isEditor"],
+                text=slot["text"]
+            )
         
     def drawFile(self, fileName = "file.txt", row=0, col=0, text="", isEditor = False):
         screenL = 30
