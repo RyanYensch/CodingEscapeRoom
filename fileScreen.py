@@ -39,11 +39,3 @@ class FileScreen():
     
     def updateText(self):
         self.text = self.textBox.get("1.0", END)
-
-        
-if __name__ == "__main__":
-    window = Tk()
-    
-    file = FileScreen(text="Test\nTesting\nTest")
-    
-    window.mainloop()
