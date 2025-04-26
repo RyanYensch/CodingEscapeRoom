@@ -1,29 +1,23 @@
 from tkinter import *
 from tkinter import messagebox
 from windowSetting import setCenter # type: ignore
-from codeEditor import openEditor
-
-def openComputer(window, title="Computer", username="User", loggedIn=False):
-    computer = ComputerScreen(title, username, loggedIn)
-    computerWindow = computer.getWindow()
-    window.withdraw()
-    window.wait_window(computerWindow)
-    
-    window.deiconify()
-    
-    
-    return computer
+from codeEditor import Editor, openEditor
 
 class ComputerScreen():
     windowHeight = 610
     windowWidth = 1080
     incorrectAttempts = 0
     
-    def __init__(self, title="Computer", username="User", loggedIn = False):    
-        self.window = Toplevel()
-        self.window.title(title)
+    def __init__(self, title="Computer", username="User", loggedIn = False, editors = {}):    
+        self.title = title
         self.username = username
         self.loggedIn = loggedIn
+        self.editors = editors
+    
+    
+    def openComputer(self):
+        self.window = Toplevel()
+        self.window.title(self.title)
         
         setCenter(self.window, self.windowWidth, self.windowHeight)
         
@@ -34,8 +28,7 @@ class ComputerScreen():
             self.setDesktop()
         else:
             self.setLoginPage()
-    
-    def getWindow(self):
+        
         return self.window
     
     def getLoggedIn(self):
@@ -79,7 +72,8 @@ class ComputerScreen():
 
 
     def enableHack(self):
-        editor = openEditor(self.window, "Code Editor", "Password")
+        editor = self.editors["Password"]
+        openEditor(editor, self.window)
         self.loggedIn = editor.completedTests()
         if self.loggedIn:
             self.setDesktop()

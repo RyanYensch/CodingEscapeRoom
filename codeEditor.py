@@ -4,18 +4,12 @@ from windowSetting import setCenter # type: ignore
 import subprocess
 import re
 
-def openEditor(window, title, className):
-    filePath = className + ".cpp"
-    editor = Editor(title, filePath)
-    editor.readFile()
-    editorWindow = editor.getWindow()
+def openEditor(editor, window):
+    editorWindow= editor.openEditor()
     window.withdraw()
     window.wait_window(editorWindow)
     
     window.deiconify()
-    
-    
-    return editor
 
 class Editor():
     windowHeight = 700
@@ -23,11 +17,16 @@ class Editor():
     completed = False
     
     def __init__(self, title, filePath):
+        self.title = title
+        self.filePath = filePath
+        
+        
+    def openEditor(self):
         self.window = Toplevel()
-        self.window.title(title)
+        self.window.title(self.title)
         
         setCenter(self.window, self.windowWidth, self.windowHeight)
-        self.filePath = filePath
+        self.filePath = self.filePath
         
         
         # Text editor features
@@ -61,6 +60,7 @@ class Editor():
         self.textBox.bind("<Configure>", self.updateLineNumbers)
         self.updateLineNumbers()
         self.highlightSyntax()
+        self.readFile()
         
         
         # Buttons
@@ -77,9 +77,6 @@ class Editor():
         self.outputTextBox = Text(self.window, wrap="word", font=font, bg="#1e1e1e", fg="#d4d4d4", state=DISABLED)
         self.outputTextBox.pack(padx=10,pady=10, fill="both", expand=True)
         
-        self.window.update()
-        
-    def getWindow(self):
         return self.window
     
     def generateMain(self, className, funcName, returnType, tests):

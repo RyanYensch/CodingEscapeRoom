@@ -1,7 +1,7 @@
 from tkinter import *
-from codeEditor import Editor, openEditor
+from codeEditor import Editor
 from windowSetting import setCenter # type: ignore
-from computerScreen import ComputerScreen, openComputer
+from computerScreen import ComputerScreen
 from bookWindow import Book # type: ignore
 from lockScreen import LockInterface # type: ignore
 import random
@@ -24,6 +24,10 @@ challenges = [{"className": "Password",
 lockCode = [random.randint(0, 9) for i in range(len(challenges) - 1)]
 lock = LockInterface(code=lockCode)
 
+
+editors = {}
+computer = None
+
 library = [
     {"title": "Fortnite", "pages": ["I love Fortnite"], "color": "skyblue"},
     {"title": "Ligma",     "pages": ["Ligma", "Balls", "sigma"],  "color": "lightgreen"},
@@ -37,9 +41,12 @@ def openBook(idx):
     Book(title=b["title"], pagesText=b["pages"], borderColour=b["color"])
 
 def onComputerClick():
-    global loggedIn
-    computer = openComputer(window, title="Computer",username="Username", loggedIn=loggedIn)
-    loggedIn = computer.getLoggedIn()
+    computerWindow = computer.openComputer()
+    window.withdraw()
+    window.wait_window(computerWindow)
+    
+    window.deiconify()
+
 
 def onDoorClick():
     if lock.isLocked():
@@ -55,7 +62,11 @@ def initialiseChallenges():
         fileName = c["className"] + ".cpp"
         editor = Editor("", fileName)
         editor.setFile(c["className"], c["returnType"], c["funcName"], c["params"], c["tests"])
-        editor.getWindow().destroy()
+        
+        editors[c["className"]] = editor
+    
+    global computer
+    computer = ComputerScreen(title="Computer",username="Username", loggedIn=False, editors=editors)
 
 def drawBookshelf(canvas, library, shelfLeft, shelfRight,
                    shelfTop, shelfHeight, numShelves = 1,
