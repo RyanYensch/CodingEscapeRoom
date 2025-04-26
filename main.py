@@ -1,7 +1,7 @@
 from tkinter import *
 from codeEditor import Editor
 from windowSetting import setCenter # type: ignore
-from computerScreen import ComputerScreen
+from computerScreen import ComputerScreen, openComputer
 from bookWindow import Book # type: ignore
 from lockScreen import LockInterface # type: ignore
 import random
@@ -41,11 +41,7 @@ def openBook(idx):
     Book(title=b["title"], pagesText=b["pages"], borderColour=b["color"])
 
 def onComputerClick():
-    computerWindow = computer.openComputer()
-    window.withdraw()
-    window.wait_window(computerWindow)
-    
-    window.deiconify()
+    openComputer(computer=computer, window=window)
 
 
 def onDoorClick():

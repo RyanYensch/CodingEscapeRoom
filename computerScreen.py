@@ -3,6 +3,13 @@ from tkinter import messagebox
 from windowSetting import setCenter # type: ignore
 from codeEditor import Editor, openEditor
 
+def openComputer(computer, window):
+    computerWindow = computer.openComputer()
+    window.withdraw()
+    window.wait_window(computerWindow)
+    
+    window.deiconify()
+
 class ComputerScreen():
     windowHeight = 610
     windowWidth = 1080
