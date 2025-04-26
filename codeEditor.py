@@ -16,9 +16,10 @@ class Editor():
     windowWidth = 700
     completed = False
     
-    def __init__(self, title, filePath):
+    def __init__(self, title, filePath, passedMessage = ""):
         self.title = title
         self.filePath = filePath
+        self.passedMessage = passedMessage
         
         
     def openEditor(self):
@@ -170,7 +171,7 @@ class Editor():
             self.updateOutputText("Test Failed:\n" + testResults.stdout)
             return
         
-        self.updateOutputText("All Tests Passed!")
+        self.updateOutputText("All Tests Passed!\n" + self.passedMessage)
         self.completed = True
     
     def completedTests(self):

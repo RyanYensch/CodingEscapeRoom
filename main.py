@@ -10,10 +10,12 @@ import random
 
 challenges = [{"className": "Password", 
                "returnType": "string", "funcName": "passwordDecode", "params" : "string s",
+               "codeId": -1,
                "tests": [("\"skibidi\"", "\"ski\""), 
                          ("\"Heyyy\"", "\"Hey\"")]},
               {"className": "Parity",
                "returnType": "int", "funcName": "bitParity", "params": "vector<int> nums",
+               "codeId": 0,
                "tests": [("vector<int>{1,2,3,4}", "3"),
                          ("vector<int>{64900, 69133, 64722, 96856, 16905, 72186, 9504, 30765, 56703, 20814, 90109, 20291, 54252, 7259, 95665, 53619, 70726, 3013}", "7"),
                          ("vector<int>{10921, 51740, 79543, 23938, 43259, 99893, 73110, 76568}", "6"),
@@ -56,7 +58,8 @@ def onDoorKnobClick():
 def initialiseChallenges():
     for c in challenges:
         fileName = c["className"] + ".cpp"
-        editor = Editor("", fileName)
+        editor = Editor(title=fileName, filePath=fileName, 
+                        passedMessage= f"Secret Code {c['codeId'] + 1}: {lockCode[c['codeId']]}" if c["codeId"] != -1 else "Password Cracked.\nWelcome Hacker")
         editor.setFile(c["className"], c["returnType"], c["funcName"], c["params"], c["tests"])
         
         editors[c["className"]] = editor
@@ -82,10 +85,10 @@ def drawBookshelf(canvas, library, shelfLeft, shelfRight,
         y1 = shelfTop + sh * (shelfHeight + shelfMargin)
         y2 = y1 + bookH
         
-        plank_th = 5
+        plankTh = 5
         canvas.create_rectangle(
             shelfLeft, y2,
-            shelfRight, y2 + plank_th,
+            shelfRight, y2 + plankTh,
             fill="sienna", outline=""
         )
 
