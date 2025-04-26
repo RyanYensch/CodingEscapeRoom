@@ -38,7 +38,6 @@ class FileScreen():
         return self.window
     
     def updateText(self):
-        print("Called")
         self.text = self.textBox.get("1.0", END)
 
         
