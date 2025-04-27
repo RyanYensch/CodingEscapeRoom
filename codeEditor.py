@@ -15,6 +15,9 @@ class Editor():
     windowHeight = 700
     windowWidth = 700
     completed = False
+    numFailCompile = 0
+    numFailTests = 0
+    numRunTests = 0
     
     def __init__(self, title, filePath, passedMessage = ""):
         self.title = title
@@ -158,8 +161,11 @@ class Editor():
     
     
     def runTests(self):
+        self.numRunTests += 1
         compRes = self.compileCode()
         if compRes:
+            self.numFailCompile += 1
+            self.numFailTests += 1
             self.updateOutputText(compRes)
             return
         
@@ -168,6 +174,7 @@ class Editor():
                                      text=True)
         
         if testResults.stdout:
+            self.numFailTests += 1
             self.updateOutputText("Test Failed:\n" + testResults.stdout)
             return
         
