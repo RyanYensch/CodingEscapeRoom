@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from codeEditor import Editor
 from windowSetting import setCenter # type: ignore
 from computerScreen import ComputerScreen, openComputer
@@ -6,6 +7,7 @@ from bookWindow import Book # type: ignore
 from lockScreen import LockInterface # type: ignore
 import random
 import json
+import time
 
 with open('library.json', 'r', encoding='utf-8') as f:
     library = json.load(f)
@@ -25,6 +27,9 @@ lock = LockInterface(code=lockCode)
 editors = {}
 computer = None
 
+startTime = time.time()
+endTime = None
+
 
 
 def openBook(idx):
@@ -37,9 +42,19 @@ def onComputerClick():
 
 def onDoorClick():
     if lock.isLocked():
+        messagebox.showerror("Door", "The Door appears to be locked\nTry Opening by the Handle")
         return
     
-    print("Door Opened")
+    numTestsRun = 0
+    numTestsFailed = 0
+    numCompilesFailed = 0
+    for editor in editors.values():
+        stats = editor.getStats()
+        numTestsRun += stats[0]
+        numTestsFailed += stats[1]
+        numCompilesFailed += stats[2]
+    
+    endTime = time.time()
     
 def onDoorKnobClick():
     lock.openWindow()

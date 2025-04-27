@@ -184,6 +184,9 @@ class Editor():
     def completedTests(self):
         return self.completed
     
+    def getStats(self):
+        return (self.numRunTests, self.numFailTests, self.numFailCompile)
+    
     def onKeyRelease(self, event=None):
         self.updateLineNumbers()
         self.highlightSyntax()
