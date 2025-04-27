@@ -13,9 +13,11 @@ with open('library.json', 'r', encoding='utf-8') as f:
 with open('challenges.json', 'r', encoding='utf-8') as f:
     challenges = json.load(f)
 
+with open('desktopFiles.json', 'r', encoding='utf-8') as f:
+    desktopFiles = json.load(f)
 
-desktopFiles = [("fortnite.txt","Man\nI\nLove\nFortnite"),
-                ("ParityInstruction.txt", "You are given an array of numbers.\nReturn the count of numbers with an odd number of \'1\' bits\n")]
+# desktopFiles = [("fortnite.txt","Man\nI\nLove\nFortnite"),
+#                 ("ParityInstruction.txt", "You are given an array of numbers.\nReturn the count of numbers with an odd number of \'1\' bits\n")]
 
 
 lockCode = [random.randint(0, 9) for _ in range(len(challenges) - 1)]
