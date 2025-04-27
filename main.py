@@ -28,7 +28,7 @@ desktopFiles = [("fortnite.txt","Man\nI\nLove\nFortnite"),
                 ("ParityInstruction.txt", "You are given an array of numbers.\nReturn the count of numbers with an odd number of \'1\' bits\n")]
 
 
-lockCode = [random.randint(0, 9) for i in range(len(challenges) - 1)]
+lockCode = [random.randint(0, 9) for _ in range(len(challenges) - 1)]
 lock = LockInterface(code=lockCode)
 
 
@@ -36,16 +36,31 @@ editors = {}
 computer = None
 
 library = [
-    {"title": "Fortnite", "pages": ["I love Fortnite"], "color": "skyblue"},
-    {"title": "Ligma",     "pages": ["Ligma", "Balls", "sigma"],  "color": "lightgreen"},
-    {"title": "Diary",     "pages": ["Dear Diary..."],    "color": "pink"},
-    {"title": "Python",    "pages": ["import this"],      "color": "gold"},
-    {"title": "Skibidi",   "pages": ["Skibidi Toilet!"],  "color": "coral"},
+    {"title": "Login Details", "pages": ["How To Decode Encrypted Password\n\n1. Know the secret number\n2. Create a new empty word\n3. Find the average between the first and last character\n4. Shift the first character by the last character\n5. Add the average to the front of the word, and the shift to the back\n6. Repeat steps 3-5 with the second and second last, and so on until the entire string is complete\n7. Shift the first character of the word by the secret number times the number of times it appears in the word\n8. Add this new character to the end of another word\n9. Repeat step 7-8 for all unique characters in the word",
+                                         "Notes:\nCharacters are between ASCII 33-126.\nIf a number goes outside this range it will cycle back to 33.\ne.g. 125 + 3 = 34\n\nExample:\nEncoded Text = pookiepoo\nsecretNum = 69\n\nDecoded = QP'Ri[]\n\nExplanation:\naverage between p and o = o\nshift p by o = %\nword = o% \n\naverage between o and o = o\nshift o by o = $\nword = oo%$\naverage between o and p = o\nshift o by p = %\nword = ooo%$%\naverage between k and e = h\nshift k by e = s\nword = hooo%$%s\n\naverage between i and i = i\nshift i by i = u\nword = ihooo%$%su",
+                                         "i occurs once in word so shift i by secretNum = Q\nDecoded = Q\n\nh occurs once in word so shift h by secretNum = P\nDecoded = QP\n\no occurs thrice in word so shift o by 3 * secretNum = '\nDecoded = QP'\n\n% occurs twice in word so shift % by 2 * secretNum = R\nDecoded = QP'R\n\n$ occurs once in word so shift $ by secretNum = i\nDecoded = QP'Ri\n\ns occurs once in word so shift s by secretNum = [\nDecoded = QP'Ri[\n\nu occurs once in word so shift u by secretNum = ]\nDecoded = QP'Ri[]",
+                                         "",
+                                         "Credentials\n\nFacebook\nusername: dave.doe1990\npassword: HedgeHog!23\n\nTwitter\nusername: dave_tw\npassword: BirdSong42$\n\nInstagram\nusername: dave_ig\npassword: Sunset#88\n\nLaptop\nusername: dave_pc\npassword:\n\nWork Email\nusername: dave@company.com\npassword: BirdSong42$",
+                                         "Credentials\n\nGmail\nusername: dave.mail@gmail.com\npassword: IronMan_1963\n\nDropbox\nusername: dave_drop\npassword: SkiesAreBlue9\n\nReddit\nusername: dave_reddit\npassword: Upvote*All\n\nHome WiFi\nusername: HomeNetwork\npassword: HedgeHog!23\n\nPrinter\nusername: dave_printer\npassword: IronMan_1963",
+                                         "Credentials\n\nAmazon\nusername: prime_pal_dave\npassword: HedgeHog!23\n\neBay\nusername: auction_dave\npassword: Upvote*All\n\nPayPal\nusername: dave_pay\npassword: SkiesAreBlue9\n\nVPN\nusername: dave_vpn\npassword: IronMan_1963\n\nRouter\nusername: admin_router\npassword: Sunset#88",
+                                         "Credentials\n\nZoom\nusername: dave_zoom\npassword: BirdSong42$\n\nSlack\nusername: dave_slack\npassword: Upvote*All\n\nTrello\nusername: dave_trello\npassword: HedgeHog!23\n\nWindows Login\nusername: dave_pc_login\npassword: IronMan_1963\n\nMacBook\nusername: dave_mac\npassword: Sunset#88",
+                                         "Credentials\n\nWordPress\nusername: dave_blog\npassword: SkiesAreBlue9\n\nMedium\nusername: dave_medium\npassword: HedgeHog!23\n\nTumblr\nusername: dave_tumblr\npassword: BirdSong42$\n\nNAS Storage\nusername: nas_admin\npassword: SkiesAreBlue9\n\nSmart TV\nusername: tv_admin\npassword: MovieNight7",
+                                         "Credentials\n\nGitHub\nusername: davegit\npassword: Upvote*All\n\nLinkedIn\nusername: dave_linked\npassword: Sunset#88\n\nNetflix\nusername: dave_netflix\npassword: MovieNight7\n\nSpotify\nusername: dave_spotify\npassword: Rhythm&Beats!\n\nSteam\nusername: dave_steam\npassword: Upvote*All",
+                                         "Credentials\n\nAsana\nusername: dave_asana\npassword: HedgeHog!23\n\nJira\nusername: dave_jira\npassword: IronMan_1963\n\nBank Account\nusername: dave_bank\npassword: BidWin#12\n\nInvestment Account\nusername: dave_invest\npassword: BidWin#12\n\nSSH Server\nusername: ssh_dave\npassword: IronMan_1963",
+                                         "Credentials\n\nEmail Server\nusername: mailserver\npassword: Sunset#88\n\nGitLab\nusername: dave_gitlab\npassword: Upvote*All\n\nDocker Hub\nusername: dave_docker\npassword: IronMan_1963\n\nAWS Console\nusername: dave_aws\npassword: HedgeHog!23\n\nSMTP\nusername: smtp_dave\npassword: SkiesAreBlue9",
+                                         "Credentials\n\nForum\nusername: dave_forum\npassword: BirdSong42$\n\nVPN Backup\nusername: dave_vpn2\npassword: HedgeHog!23\n\nAdmin Panel\nusername: dave_admin\npassword: IronMan_1963\n\nDatabase\nusername: db_admin\npassword: Upvote*All\n\nCI/CD\nusername: cicd_dave\npassword: MovieNight7",
+                                         "Credentials\n\nCloud Panel\nusername: cloud_dave\npassword: Sunset#88\n\nHome Security\nusername: sec_system\npassword: SkiesAreBlue9\n\nGarage Door\nusername: garage_ctrl\npassword: HedgeHog!23\n\nBluetooth Speaker\nusername: bt_speaker\npassword: MovieNight7\n\nFitness Tracker\nusername: fit_tracker\npassword: Rhythm&Beats!"],
+     "colour": "skyblue", "startPage" : 4},
+    {"title": "Fortnite", "pages": ["I love Fortnite"], "colour": "skyblue"},
+    {"title": "Ligma",     "pages": ["Ligma", "Balls", "sigma"],  "colour": "lightgreen"},
+    {"title": "Diary",     "pages": ["Dear Diary..."],    "colour": "pink"},
+    {"title": "Python",    "pages": ["import this"],      "colour": "gold"},
+    {"title": "Skibidi",   "pages": ["Skibidi Toilet!"],  "colour": "coral"},
 ]
 
 def openBook(idx):
     b = library[idx]
-    Book(title=b["title"], pagesText=b["pages"], borderColour=b["color"])
+    Book(title=b["title"], pagesText=b["pages"], borderColour=b["colour"], startPage= b["startPage"] if "startPage" in b else 0)
 
 def onComputerClick():
     openComputer(computer=computer, window=window)
@@ -70,7 +85,7 @@ def initialiseChallenges():
         editors[c["className"]] = editor
     
     global computer
-    computer = ComputerScreen(title="Computer",username="Username", loggedIn=False, editors=editors, textFiles=desktopFiles)
+    computer = ComputerScreen(title="Laptop",username="dave_pc", loggedIn=False, editors=editors, textFiles=desktopFiles)
 
 def drawBookshelf(canvas, library, shelfLeft, shelfRight,
                    shelfTop, shelfHeight, numShelves = 1,
@@ -108,7 +123,7 @@ def drawBookshelf(canvas, library, shelfLeft, shelfRight,
 
             canvas.create_rectangle(
                 x1, y1, x2, y2,
-                fill=book_info["color"], outline="black",
+                fill=book_info["colour"], outline="black",
                 tags=(f"book_{sh}_{slot_idx}",)
             )
             
@@ -131,7 +146,7 @@ def drawComputer(canvas, tableLeft, tableRight, tableY):
     canvas.create_rectangle(
         tableLeft, tableY,
         tableRight, tableY + tableTh,
-        fill="sienna", outline=""
+        fill="black", outline=""
     )
     
     monW, monH = 200, 120

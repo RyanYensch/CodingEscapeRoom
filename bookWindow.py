@@ -3,8 +3,8 @@ from tkinter.font import *
 from windowSetting import setCenter
 
 class Book():
-    windowHeight = 500
-    windowWidth = 700
+    windowHeight = 800
+    windowWidth = 1200
     
     
     def __init__(self, title="Book", pagesText = [""], startPage = 0, borderColour ="maroon"):
