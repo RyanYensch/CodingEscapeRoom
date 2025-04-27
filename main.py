@@ -58,6 +58,9 @@ def onDoorClick():
     
     endTime = time.time()
     
+    messagebox.showinfo("CONGRATS", "YOU MANAGED TO ESCAPE!!!!!")
+
+    
     elapsedTime = endTime - startTime
     filePath = os.path.abspath('results.html')
     url = (
@@ -67,7 +70,10 @@ def onDoorClick():
         f'&testsFailed={numTestsFailed}'
         f'&compilesFailed={numCompilesFailed}'
     )
+    
     webbrowser.open(url)
+    window.destroy()
+    quit()
     
 def onDoorKnobClick():
     lock.openWindow()
