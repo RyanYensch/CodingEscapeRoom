@@ -8,6 +8,8 @@ from lockScreen import LockInterface # type: ignore
 import random
 import json
 import time
+import webbrowser
+import os
 
 with open('library.json', 'r', encoding='utf-8') as f:
     library = json.load(f)
@@ -55,6 +57,23 @@ def onDoorClick():
         numCompilesFailed += stats[2]
     
     endTime = time.time()
+    
+    messagebox.showinfo("CONGRATS", "YOU MANAGED TO ESCAPE!!!!!")
+
+    
+    elapsedTime = endTime - startTime
+    filePath = os.path.abspath('results.html')
+    url = (
+        f'file://{filePath}'
+        f'?time={elapsedTime:.2f}'
+        f'&testsRun={numTestsRun}'
+        f'&testsFailed={numTestsFailed}'
+        f'&compilesFailed={numCompilesFailed}'
+    )
+    
+    webbrowser.open(url)
+    window.destroy()
+    quit()
     
 def onDoorKnobClick():
     lock.openWindow()

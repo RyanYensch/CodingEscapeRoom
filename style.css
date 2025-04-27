@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container {
+    background: rgba(0,0,0,0.6);
+    padding: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 2rem rgba(0,0,0,0.5);
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  .stats p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+  
