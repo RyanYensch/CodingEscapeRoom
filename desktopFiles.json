@@ -4,5 +4,10 @@
 ["PowersOfThree.txt", "Given an integer n, return true if it is possible to represent n as the sum of distinct powers of three. Otherwise, return false.\n\nAn integer y is a power of three if there exists an integer x such that y == 3^x."],
 ["LargestRectangle.txt", "Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram."],
 ["LastStone.txt", "You are given an array of integers stones where stones[i] is the weight of the ith stone.\n\nWe are playing a game with the stones. On each turn, we choose the heaviest two stones and smash them together. Suppose the heaviest two stones have weights x and y with x <= y. The result of this smash is:\n\nIf x == y, both stones are destroyed, and\nIf x != y, the stone of weight x is destroyed, and the stone of weight y has new weight y - x.\nAt the end of the game, there is at most one stone left.\n\nReturn the weight of the last remaining stone. If there are no stones left, return 0."],
-["Logout.exe", ""]
+["Logout.exe", ""],
+["Shuffle.exe", ""],
+["Pookie.txt", "I Love my pookie so much!\nShe is the sweetest, kindest, smartest and most beautiful person ever!"],
+["WorstCourses.txt", "DESN1000\nELEC2141"],
+["DearHacker.pdf", "Dear Hacker,\nYou think you've won because you're on my laptop\nWRONG!\nYou must find the lock codes by solving all my challenges!\nMWAHAHAHAHAHA"],
+["FavouriteThings.txt", "1. Pookie\n2. My wife\n3. My Girlfriend\n4. My Baby\n5. My Love"]
 ]
