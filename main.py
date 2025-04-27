@@ -5,47 +5,31 @@ from computerScreen import ComputerScreen, openComputer
 from bookWindow import Book # type: ignore
 from lockScreen import LockInterface # type: ignore
 import random
+import json
+
+with open('library.json', 'r', encoding='utf-8') as f:
+    library = json.load(f)
+
+with open('challenges.json', 'r', encoding='utf-8') as f:
+    challenges = json.load(f)
+
+with open('desktopFiles.json', 'r', encoding='utf-8') as f:
+    desktopFiles = json.load(f)
 
 
 
-challenges = [{"className": "Password", 
-               "returnType": "string", "funcName": "passwordDecode", "params" : "string s",
-               "codeId": -1,
-               "tests": [("\"skibidi\"", "\"ski\""), 
-                         ("\"Heyyy\"", "\"Hey\"")]},
-              {"className": "Parity",
-               "returnType": "int", "funcName": "bitParity", "params": "vector<int> nums",
-               "codeId": 0,
-               "tests": [("vector<int>{1,2,3,4}", "3"),
-                         ("vector<int>{64900, 69133, 64722, 96856, 16905, 72186, 9504, 30765, 56703, 20814, 90109, 20291, 54252, 7259, 95665, 53619, 70726, 3013}", "7"),
-                         ("vector<int>{10921, 51740, 79543, 23938, 43259, 99893, 73110, 76568}", "6"),
-                         ("vector<int>{29133, 21176, 78474, 78911, 97096, 59412, 47619, 56752, 85031, 58569, 1171, 55910, 39341, 50137, 76427, 39180, 99302}", "11"),
-                         ("vector<int>{37192, 29783, 4914, 40890, 40629, 40500, 49840, 69166, 46966, 72360, 25405, 2628, 83272, 69722, 7411, 86350, 68850, 67989, 63305, 74865, 41085, 1453, 37768, 54453, 99180, 33817, 55939, 9129, 95947, 83709, 28926, 60739, 15145, 87402, 26750, 27197, 89264, 37747, 35768, 36601, 33022, 9739, 29881, 49011, 20170, 68910, 54706, 68598, 15894, 47350}", "22"),
-                         ("vector<int>{}", "0")]}]
-
-
-desktopFiles = [("fortnite.txt","Man\nI\nLove\nFortnite"),
-                ("ParityInstruction.txt", "You are given an array of numbers.\nReturn the count of numbers with an odd number of \'1\' bits\n")]
-
-
-lockCode = [random.randint(0, 9) for i in range(len(challenges) - 1)]
+lockCode = [random.randint(0, 9) for _ in range(len(challenges) - 1)]
 lock = LockInterface(code=lockCode)
 
 
 editors = {}
 computer = None
 
-library = [
-    {"title": "Fortnite", "pages": ["I love Fortnite"], "color": "skyblue"},
-    {"title": "Ligma",     "pages": ["Ligma", "Balls", "sigma"],  "color": "lightgreen"},
-    {"title": "Diary",     "pages": ["Dear Diary..."],    "color": "pink"},
-    {"title": "Python",    "pages": ["import this"],      "color": "gold"},
-    {"title": "Skibidi",   "pages": ["Skibidi Toilet!"],  "color": "coral"},
-]
+
 
 def openBook(idx):
     b = library[idx]
-    Book(title=b["title"], pagesText=b["pages"], borderColour=b["color"])
+    Book(title=b["title"], pagesText=b["pages"], borderColour=b["colour"], startPage= b["startPage"] if "startPage" in b else 0)
 
 def onComputerClick():
     openComputer(computer=computer, window=window)
@@ -70,7 +54,7 @@ def initialiseChallenges():
         editors[c["className"]] = editor
     
     global computer
-    computer = ComputerScreen(title="Computer",username="Username", loggedIn=False, editors=editors, textFiles=desktopFiles)
+    computer = ComputerScreen(title="Laptop",username="dave_pc", loggedIn=False, editors=editors, textFiles=desktopFiles)
 
 def drawBookshelf(canvas, library, shelfLeft, shelfRight,
                    shelfTop, shelfHeight, numShelves = 1,
@@ -108,7 +92,7 @@ def drawBookshelf(canvas, library, shelfLeft, shelfRight,
 
             canvas.create_rectangle(
                 x1, y1, x2, y2,
-                fill=book_info["color"], outline="black",
+                fill=book_info["colour"], outline="black",
                 tags=(f"book_{sh}_{slot_idx}",)
             )
             
@@ -131,7 +115,7 @@ def drawComputer(canvas, tableLeft, tableRight, tableY):
     canvas.create_rectangle(
         tableLeft, tableY,
         tableRight, tableY + tableTh,
-        fill="sienna", outline=""
+        fill="black", outline=""
     )
     
     monW, monH = 200, 120
