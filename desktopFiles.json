@@ -1,5 +1,6 @@
 [["fortnite.txt","Man\nI\nLove\nFortnite"],
 ["ParityInstruction.txt", "You are given an array of numbers.\nReturn the count of numbers with an odd number of '1' bits\n"],
 ["SingleNumber.txt", "Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it.\n\nYou must implement a solution with a linear runtime complexity and use only constant extra space."],
-["PowersOfThree.txt", "Given an integer n, return true if it is possible to represent n as the sum of distinct powers of three. Otherwise, return false.\n\nAn integer y is a power of three if there exists an integer x such that y == 3^x."]
+["PowersOfThree.txt", "Given an integer n, return true if it is possible to represent n as the sum of distinct powers of three. Otherwise, return false.\n\nAn integer y is a power of three if there exists an integer x such that y == 3^x."],
+["LargestRectangle.txt", "Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram."]
 ]
