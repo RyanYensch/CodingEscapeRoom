@@ -1,5 +1,5 @@
 [{"className": "Password", 
-               "returnType": "string", "funcName": "passwordDecode", "params" : "string encodedPassword",
+               "returnType": "string", "funcName": "passwordDecode", "params" : "string encoded",
                "codeId": -1,
                "tests": [["\"iLovePookie\"", "\"=W_ZGT^Ejud0\""], 
                          ["\"SigmaSigmaBoy123\"", "\"WR7UM9:0s+(v%Zd\""],
