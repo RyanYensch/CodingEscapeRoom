@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter.font import *
 from windowSetting import setCenter # type: ignore
 from codeEditor import Editor, openEditor
 from fileScreen import FileScreen, openFile # type: ignore
@@ -132,16 +133,27 @@ class ComputerScreen():
         self.loggedIn = False
         self.setLoginPage()
     
+    def shuffle(self):
+        self.setDesktop()
+    
+    def fitFontToWidth(self, text, fontFamily, maxWidth, maxSize):
+        size = maxSize
+        font = Font(family=fontFamily, size=size)
+        while size > 1 and font.measure(text) > maxWidth:
+            size -= 1
+            font.configure(size=size)
+        return font
+    
     def drawFile(self, fileName = "file.txt", row=0, col=0, text="", isEditor = False):
-        screenL = 30
-        screenR = self.windowWidth - 30
-        screenB = self.windowHeight - 30
-        screenT = 30
+        screenL = 50
+        screenR = self.windowWidth - 80
+        screenB = self.windowHeight - 80
+        screenT = 10
         
-        fileW = (screenR - screenL) // (self.numIconsCol + 1)
-        fileH = (screenB - screenT) // (self.numIconsRow + 1)
-        gapX = ((screenR - screenL) - (fileW * self.numIconsCol)) // (self.numIconsCol + 1)
-        gapY = ((screenB - screenT) - (fileH * self.numIconsRow)) // (self.numIconsRow + 1)
+        fileW = (screenR - screenL) // (self.numIconsCol + 2)
+        fileH = (screenB - screenT) // (self.numIconsRow + 2)
+        gapX = ((screenR - screenL) - (fileW * self.numIconsCol)) // (self.numIconsCol)
+        gapY = ((screenB - screenT) - (fileH * self.numIconsRow)) // (self.numIconsRow)
         
         fileX = screenL + gapX *(col + 1) + fileW * col
         fileY = screenT + gapY *(row + 1) + fileH * row
@@ -154,19 +166,46 @@ class ComputerScreen():
             fill="white", outline="black", tags=(tag))
         
         
-        
+        font = self.fitFontToWidth(fileName, "Arial", fileW + gapX, 12)
         self.canvas.create_text(
                 (fileX + fileW // 2), fileY + fileH * 7 // 8,
                 text=fileName,
+                font= font,
                 anchor="center",
                 tags=(tag)
             )
         
+        fontLogo = Font(family="Arial", size=20)
         if isEditor:
+            self.canvas.create_text(
+                    (fileX + fileW // 2), fileY + fileH * 3 // 8,
+                    text="{ }",
+                    font= fontLogo,
+                    anchor="center",
+                    tags=(tag)
+                )
             self.canvas.tag_bind(tag, "<Button-1>", lambda e: openEditor(editor= self.editors[tag], window=self.window))
         elif ".exe" in fileName:
-            self.canvas.tag_bind(tag, "<Button-1>", lambda e: self.logout())
+            self.canvas.create_text(
+                    (fileX + fileW // 2), fileY + fileH * 3 // 8,
+                    text="X",
+                    font= fontLogo,
+                    anchor="center",
+                    tags=(tag)
+                )
+            if ("Logout" in fileName):
+                self.canvas.tag_bind(tag, "<Button-1>", lambda e: self.logout())
+            else:
+                self.canvas.tag_bind(tag, "<Button-1>", lambda e: self.shuffle())
         else:
+            txt = "P" if ".pdf" in fileName else "__\n__\n"
+            self.canvas.create_text(
+                    (fileX + fileW // 2), fileY + fileH * 3 // 8,
+                    text=txt,
+                    font= fontLogo,
+                    anchor="center",
+                    tags=(tag)
+                )
             self.files[tag] = FileScreen(title=fileName, text=text)
             self.canvas.tag_bind(tag, "<Button-1>", lambda e: openFile(file=self.files[tag], window=self.window))
     
