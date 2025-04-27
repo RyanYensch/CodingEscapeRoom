@@ -48,6 +48,7 @@ class ComputerScreen():
         return self.loggedIn
     
     def setLoginPage(self):
+        self.clearFrame(self.screenFrame)
         self.loginFrame = Frame(self.screenFrame, width=self.windowWidth, height=self.windowHeight, bg="#2ad4ff")
         self.loginFrame.pack(fill="both", expand=True)
         
@@ -126,7 +127,11 @@ class ComputerScreen():
                 isEditor=slot["isEditor"],
                 text=slot["text"]
             )
-        
+    
+    def logout(self):
+        self.loggedIn = False
+        self.setLoginPage()
+    
     def drawFile(self, fileName = "file.txt", row=0, col=0, text="", isEditor = False):
         screenL = 30
         screenR = self.windowWidth - 30
@@ -159,10 +164,12 @@ class ComputerScreen():
         
         if isEditor:
             self.canvas.tag_bind(tag, "<Button-1>", lambda e: openEditor(editor= self.editors[tag], window=self.window))
+        elif ".exe" in fileName:
+            self.canvas.tag_bind(tag, "<Button-1>", lambda e: self.logout())
         else:
             self.files[tag] = FileScreen(title=fileName, text=text)
             self.canvas.tag_bind(tag, "<Button-1>", lambda e: openFile(file=self.files[tag], window=self.window))
-        
+    
 
 if __name__ == "__main__":
     root = Tk()
